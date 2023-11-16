@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+const blogs = await Astro.glob("./*.md");
+---
+
+<Layout title="Blog | Alfin Aditya">
+	<main
+		class="[@media(max-width:750px)]:w-full [@media(max-width:750px)]:px-4 w-[750px] m-auto mt-32"
+	>
+		{
+			blogs.map((blog) => (
+				<article class="mb-10">
+					<h1 class="font-black text-3xl">{blog.frontmatter.title}</h1>
+					<p class="my-4">{blog.frontmatter.date}</p>
+					<a class="text-blue-500" href={`/blog/${blog.frontmatter.slug}`}>
+						Read More...
+					</a>
+				</article>
+			))
+		}
+	</main>
+</Layout>

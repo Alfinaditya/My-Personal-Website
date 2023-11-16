@@ -1,0 +1,46 @@
+---
+interface BlogFrontmatter {
+	id: number;
+	title: string;
+	category: string;
+	description: string;
+	slug: string;
+	date: string;
+	file: string;
+	url: string;
+	tags: string[];
+}
+import Layout from "./Layout.astro";
+const { frontmatter } = Astro.props;
+const front: BlogFrontmatter = frontmatter;
+import { SEO } from "astro-seo";
+---
+
+<Layout title={front.title}>
+	<SEO
+		title={front.title}
+		description="My name is Alfin Aditya, i'm a person who is passionate about Web development. My favorite technologies are : React,Typescript and Next.JS"
+		openGraph={{
+			article: {
+				authors: ["Alfin Aditya"],
+				tags: front.tags,
+				publishedTime: front.date,
+			},
+			basic: {
+				title: front.title,
+				url: "https://www.alfinaditya.com",
+				type: "website",
+				image: "https://www.alfinaditya.com/me.webp",
+			},
+		}}
+	/>
+	<main class="[@media(max-width:650px)]:w-[90%] w-[650px] m-auto my-20">
+		<div class="text-center mb-10">
+			<h1 class="text-2xl font-black mb-2">{front.title}</h1>
+			<p>{front.date}</p>
+		</div>
+		<div class="blog-parser">
+			<slot />
+		</div>
+	</main>
+</Layout>

@@ -1,0 +1,66 @@
+---
+interface Props {
+	title: string;
+}
+import Navbar from "../components/Navbar.astro";
+import { ViewTransitions } from "astro:transitions";
+import MobileNavbar from "../components/MobileNavbar";
+import { SEO } from "astro-seo";
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<SEO
+			title={title}
+			description="My name is Alfin Aditya, i'm a person who is passionate about Web development. My favorite technologies are : React,Typescript and Next.JS"
+			openGraph={{
+				basic: {
+					title: "Hi i'm Alfin 👏 i'm a Software Developer",
+					url: "https://www.alfinaditya.com",
+					type: "website",
+					image: "https://www.alfinaditya.com/me.webp",
+				},
+			}}
+		/>
+		<ViewTransitions />
+	</head>
+	<body>
+		<Navbar />
+		<MobileNavbar client:media="(max-width: 769px)" />
+		<slot />
+		<style is:global>
+			html:not(.astro-code *) {
+				font-family: "quicksand";
+				background-color: #121212;
+				color: white;
+			}
+			.blog-parser {
+				line-height: 28px;
+			}
+			.blog-parser img {
+				margin: 10px 0;
+			}
+			.blog-parser a {
+				color: #007bff;
+			}
+			.astro-code {
+				border-radius: 8px;
+				padding: 10px;
+				margin: 10px 0;
+			}
+		</style>
+	</body>
+</html>

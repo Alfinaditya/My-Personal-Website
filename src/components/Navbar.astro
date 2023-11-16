@@ -1,0 +1,39 @@
+---
+import NavLink from "./NavLink.astro";
+const navLinks = [
+	{
+		path: "/",
+		label: "Home",
+	},
+	{
+		path: "/about",
+		label: "About",
+	},
+	{
+		path: "/blog",
+		label: "Blog",
+	},
+];
+---
+
+<nav class:list={["[@media(min-width:769px)]:block", "hidden"]}>
+	<ul class="flex justify-between px-5 mt-4">
+		<li>
+			<a class="text-2xl font-black" href="/">Alfin Aditya</a>
+		</li>
+		<div class="flex gap-x-3">
+			{
+				navLinks.map((navLink) => (
+					<li>
+						<NavLink activeClassName="font-bold" href={navLink.path}>
+							{navLink.label}
+						</NavLink>
+					</li>
+				))
+			}
+			<li>
+				<a href="mailto:alfinaditia02@gmail.com"> Contact</a>
+			</li>
+		</div>
+	</ul>
+</nav>

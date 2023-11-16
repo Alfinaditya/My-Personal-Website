@@ -1,0 +1,47 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Me from "../assets/me.webp";
+import GithubIcon from "../assets/github.svg?raw";
+import LinkedinIcon from "../assets/linkedin.svg?raw";
+import EmailIcon from "../assets/email.svg?raw";
+import { Image } from "astro:assets";
+---
+
+<Layout title="Home | Alfin Aditya">
+	<main class="h-[90vh] flex flex-col justify-center items-center">
+		<div class="m-auto w-[300px]">
+			<div class="flex justify-center">
+				<Image src={Me} width={180} alt="Alfin Aditya" class="rounded-full" />
+			</div>
+			<h1 class="mt-4 text-center text-3xl font-black my-6">
+				Hi i'm Alfin 👏 i'm a Software Developer
+			</h1>
+			<div class="flex justify-center">
+				<a
+					href="https://github.com/Alfinaditya"
+					class="fill-white [&>svg]:w-6 [&>svg]:h-6 hover:fill-white/50"
+					rel="noreferrer"
+					target="_blank"
+				>
+					<Fragment set:html={GithubIcon} />
+				</a>
+				<a
+					class="fill-white hover:fill-white/50 [&>svg]:w-6 [&>svg]:h-6 mx-5"
+					href="mailto:alfinaditia02@gmail.com"
+				>
+					<Fragment set:html={EmailIcon} />
+				</a>
+				<a
+					class="fill-white [&>svg]:w-6 [&>svg]:h-6 hover:fill-white/50"
+					rel="noreferrer"
+					target="_blank"
+					href="https://www.linkedin.com/in/alfin-aditya-617120184/"
+				>
+					<Fragment set:html={LinkedinIcon} />
+				</a>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style></style>
