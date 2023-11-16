@@ -48,7 +48,9 @@ const MobileNavbar = () => {
 							</li>
 						))}
 						<li>
-							<a href="mailto:alfinaditia02@gmail.com"> Contact</a>
+							<a className="text-black" href="mailto:alfinaditia02@gmail.com">
+								Contact
+							</a>
 						</li>
 					</ul>
 				</SheetContent>
