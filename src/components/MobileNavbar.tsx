@@ -1,29 +1,29 @@
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "./Sheet";
-import { cn } from "../utils/tw";
-import { Button } from "./Button";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from './ui/sheet';
+import { cn } from '../utils/tw';
+import { Button } from './ui/button';
 
 const MobileNavbar = () => {
 	const navLinks = [
 		{
-			path: "/",
-			label: "Home",
+			path: '/',
+			label: 'Home',
 		},
 		{
-			path: "/about",
-			label: "About",
+			path: '/about',
+			label: 'About',
 		},
 		{
-			path: "/blog",
-			label: "Blog",
+			path: '/blog',
+			label: 'Blog',
 		},
 	];
 	return (
-		<div className={cn("[@media(min-width:769px)]:hidden", "block")}>
+		<div className={cn('[@media(min-width:769px)]:hidden', 'block')}>
 			<Sheet>
 				<SheetTrigger>
 					<Button
 						variant="outline"
-						className="absolute top-4 right-4 text-black font-bold"
+						className="absolute top-4 right-4 font-bold"
 					>
 						A
 					</Button>
@@ -70,7 +70,7 @@ const NavLink: React.FC<Props> = ({ activeClassName, href, children }) => {
 	// const currentPath = pathname.slice(1); // remove the first "/"
 	const active = activeClassName;
 	return (
-		<a className={currentPath === href ? active : ""} href={href}>
+		<a className={currentPath === href ? active : ''} href={href}>
 			{children}
 		</a>
 	);

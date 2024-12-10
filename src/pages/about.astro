@@ -1,11 +1,11 @@
 ---
-import { Image } from "astro:assets";
-import Layout from "../layouts/Layout.astro";
-import Me from "../assets/me.webp";
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Me from '../assets/me.webp';
 ---
 
 <Layout title="About | Alfin Aditya">
-	<main class:list={["h-[90vh]", "flex flex-col justify-center items-center"]}>
+	<main class:list={['h-[90vh]', 'flex flex-col justify-center items-center']}>
 		<div class="px-4">
 			<div class="flex justify-center">
 				<Image src={Me} width={150} alt="Alfin Aditya" class="rounded-full" />
