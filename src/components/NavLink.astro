@@ -4,19 +4,12 @@ interface Props {
 	href: string;
 	activeClassName: string;
 }
-
-const currentPath = Astro.url.pathname;
 const { href, activeClassName } = Astro.props;
+
+const { pathname } = Astro.url;
+const subpath = pathname.match(/[^\/]+/g);
+const isActive = href === pathname || href === '/' + subpath?.[0];
 const active = activeClassName;
 ---
 
-<a class={currentPath === href ? active : ''} href={href}
-	><slot />
-	{
-		JSON.stringify({
-			currentPath: currentPath,
-			href: href,
-		})
-	}
-	{currentPath === href ? 'isPathh' : 'Not Path'}</a
->
+<a class={isActive ? active : ''} href={href}><slot /></a>
