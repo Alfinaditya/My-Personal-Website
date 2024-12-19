@@ -6,8 +6,15 @@ interface Props {
 
 const currentPath = Astro.url.pathname;
 const { href, activeClassName } = Astro.props;
-console.log('current ' + currentPath, 'href ' + href);
 const active = activeClassName;
 ---
 
-<a class={currentPath === href ? active : ''} href={href}><slot /></a>
+<a class={currentPath === href ? active : ''} href={href}
+	><slot />
+	{
+		JSON.stringify({
+			currentPath: currentPath,
+			href: href,
+		})
+	}</a
+>
