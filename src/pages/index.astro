@@ -5,6 +5,8 @@ import LinkedinIcon from '../assets/linkedin.svg?raw';
 import EmailIcon from '../assets/email.svg?raw';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import DownloadCv from '@/components/DownloadCv';
+import { cn } from '@/lib/utils';
 ---
 
 <Layout title="Home | Alfin Aditya">
@@ -16,7 +18,7 @@ import Layout from '../layouts/Layout.astro';
 			<h1 class="mt-4 text-center text-3xl font-black my-6">
 				Hi i'm Alfin 👏 i'm a Software Developer
 			</h1>
-			<div class="flex justify-center">
+			<div class="flex justify-center mb-6">
 				<a
 					href="https://github.com/Alfinaditya"
 					class="fill-white [&>svg]:w-6 [&>svg]:h-6 hover:fill-white/50"
@@ -40,6 +42,9 @@ import Layout from '../layouts/Layout.astro';
 					<Fragment set:html={LinkedinIcon} />
 				</a>
 			</div>
+			<DownloadCv
+				className={cn('m-auto', 'items-center', 'flex justify-center')}
+			/>
 		</div>
 	</main>
 </Layout>
