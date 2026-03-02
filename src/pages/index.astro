@@ -1,24 +1,23 @@
 ---
-import Me from '../assets/me.webp';
-import GithubIcon from '../assets/github.svg?raw';
-import LinkedinIcon from '../assets/linkedin.svg?raw';
-import EmailIcon from '../assets/email.svg?raw';
-import { Image } from 'astro:assets';
-import Layout from '../layouts/Layout.astro';
 import DownloadCv from '@/components/DownloadCv';
 import { cn } from '@/lib/utils';
+import EmailIcon from '../assets/email.svg?raw';
+import GithubIcon from '../assets/github.svg?raw';
+import LinkedinIcon from '../assets/linkedin.svg?raw';
+import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Home | Alfin Aditya">
 	<main class="h-[90vh] flex flex-col justify-center items-center">
 		<div class="m-auto w-[300px]">
-			<div class="flex justify-center">
-				<Image src={Me} width={180} alt="Alfin Aditya" class="rounded-full" />
-			</div>
-			<h1 class="mt-4 text-center text-3xl font-black my-6">
-				Hi i'm Alfin 👏 i'm a Software Developer
+			<h1 class="text-center text-3xl leading-normal font-black">
+				Hi, I'm <span class="text-primary">Alfin</span> 👋
 			</h1>
-			<div class="flex justify-center mb-6">
+			<h2 class="text-center text-3xl leading-normal font-black">
+				Software Developer
+			</h2>
+
+			<div class="flex justify-center my-6">
 				<a
 					href="https://github.com/Alfinaditya"
 					class="fill-white [&>svg]:w-6 [&>svg]:h-6 hover:fill-white/50"
@@ -42,6 +41,7 @@ import { cn } from '@/lib/utils';
 					<Fragment set:html={LinkedinIcon} />
 				</a>
 			</div>
+
 			<DownloadCv
 				className={cn('m-auto', 'items-center', 'flex justify-center')}
 			/>
