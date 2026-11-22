@@ -20,14 +20,14 @@ const posts = await getPosts();
 		<div class="flex flex-col gap-6">
 			<p class="rise m-0 [animation-delay:.15s]">I’m {site.name}, a software developer.</p>
 			<p class="rise m-0 [animation-delay:.3s]">
-				I’m open to new work, so
-				<a href={site.cv} class="ulink whitespace-nowrap" target="_blank" rel="noopener noreferrer"
-					>Download CV<span class="ua" aria-hidden="true"> ↗</span></a
-				>
-				or
-				<a href={`mailto:${site.email}`} class="ulink whitespace-nowrap"
-					>email me<span class="ua" aria-hidden="true"> ↗</span></a
-				>.
+				I’m open to new work, so{' '}
+				<a href={site.cv} class="ulink whitespace-nowrap" target="_blank" rel="noopener noreferrer">
+					Download CV<span class="ua" aria-hidden="true">{' ↗'}</span>
+				</a>{' '}
+				or{' '}
+				<a href={`mailto:${site.email}`} class="ulink whitespace-nowrap">
+					email me<span class="ua" aria-hidden="true">{' ↗'}</span>
+				</a>.{' '}
 				<span id="local-time" class="whitespace-nowrap text-muted" hidden>
 					<span class="pulse" aria-hidden="true"></span>It’s <time></time> in {site.city}.
 				</span>
