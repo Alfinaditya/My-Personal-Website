@@ -1,14 +1,14 @@
 import { defineConfig } from 'astro/config';
-import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
 
-import tailwind from '@astrojs/tailwind';
-
-// https://astro.build/config
 export default defineConfig({
-	integrations: [
-		react(),
-		tailwind({
-			applyBaseStyles: false,
-		}),
-	],
+	site: 'https://www.alfinaditya.com',
+	integrations: [sitemap()],
+	markdown: {
+		shikiConfig: { theme: 'tokyo-night' },
+	},
+	vite: {
+		plugins: [tailwindcss()],
+	},
 });

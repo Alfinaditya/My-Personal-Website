@@ -1,0 +1,114 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import Footer from '@/components/Footer.astro';
+import Layout from '@/layouts/Layout.astro';
+import { formatDate, getPosts, readingMinutes, type Post } from '@/lib/posts';
+
+export const getStaticPaths = (async () => {
+	const posts = await getPosts();
+	// posts are newest first: "previous" is older, "next" is newer
+	return posts.map((post, i) => ({
+		params: { slug: post.id },
+		props: { post, prev: posts[i + 1], next: posts[i - 1] },
+	}));
+}) satisfies GetStaticPaths;
+
+interface Props {
+	post: Post;
+	prev?: Post;
+	next?: Post;
+}
+
+const { post, prev, next } = Astro.props;
+const { Content } = await render(post);
+const minutes = readingMinutes(post.body);
+---
+
+<Layout title={post.data.title} description={post.data.description} type="article">
+	<div class="pt-14">
+		<nav class="rise mb-16 text-[15px]">
+			<a href="/" class="back"><span class="ba" aria-hidden="true">←</span>Back to home</a>
+		</nav>
+
+		<header class="flex flex-col gap-4">
+			<p class="rise m-0 font-mono text-sm text-muted [animation-delay:.1s]">
+				<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time> · {minutes} min read
+			</p>
+			<h1
+				class="rise m-0 text-[40px] leading-tight font-semibold tracking-[-0.02em] text-heading [animation-delay:.2s]"
+			>
+				{post.data.title}
+			</h1>
+			<p class="rise m-0 text-xl leading-relaxed text-sub [animation-delay:.2s]">{post.data.description}</p>
+		</header>
+
+		<hr class="rule draw my-12 [animation-delay:.35s]" />
+
+		<article class="prose rise [animation-delay:.5s]">
+			<Content />
+		</article>
+
+		<hr class="rule mt-16 mb-10" />
+
+		{
+			(prev || next) && (
+				<div class="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-4">
+					{prev ? (
+						<a href={`/blog/${prev.id}/`} class="nav-card">
+							<span class="font-mono text-[13px] text-muted">← Previous</span>
+							<span class="text-base leading-normal">{prev.data.title}</span>
+						</a>
+					) : (
+						<span />
+					)}
+					{next && (
+						<a href={`/blog/${next.id}/`} class="nav-card text-right">
+							<span class="font-mono text-[13px] text-muted">Next →</span>
+							<span class="text-base leading-normal">{next.data.title}</span>
+						</a>
+					)}
+				</div>
+			)
+		}
+
+		<div class="mt-12 flex flex-col gap-2">
+			<a href="/" class="back self-start text-[15px]"><span class="ba" aria-hidden="true">←</span>All posts</a>
+			<Footer />
+		</div>
+	</div>
+</Layout>
+
+<script>
+	const copyIcon =
+		'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
+	const doneIcon =
+		'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>';
+
+	for (const pre of document.querySelectorAll<HTMLPreElement>('.prose pre')) {
+		const wrap = document.createElement('div');
+		wrap.className = 'code-wrap';
+		pre.replaceWith(wrap);
+		wrap.append(pre);
+
+		const btn = document.createElement('button');
+		btn.type = 'button';
+		btn.className = 'copy-btn';
+		btn.setAttribute('aria-label', 'Copy code');
+		btn.innerHTML = copyIcon;
+		btn.addEventListener('click', async () => {
+			try {
+				await navigator.clipboard.writeText(pre.innerText);
+				btn.innerHTML = doneIcon;
+				btn.setAttribute('aria-label', 'Copied');
+				setTimeout(() => {
+					btn.innerHTML = copyIcon;
+					btn.setAttribute('aria-label', 'Copy code');
+				}, 1500);
+			} catch {
+				// clipboard blocked: leave button as is
+			}
+		});
+		wrap.append(btn);
+	}
+</script>

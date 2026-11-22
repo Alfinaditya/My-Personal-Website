@@ -1,52 +1,95 @@
 ---
-import DownloadCv from '@/components/DownloadCv';
-import { cn } from '@/lib/utils';
-import EmailIcon from '../assets/email.svg?raw';
-import GithubIcon from '../assets/github.svg?raw';
-import LinkedinIcon from '../assets/linkedin.svg?raw';
-import Layout from '../layouts/Layout.astro';
+import Footer from '@/components/Footer.astro';
+import Layout from '@/layouts/Layout.astro';
+import { formatDate, getPosts } from '@/lib/posts';
+import { site } from '@/site';
+
+const posts = await getPosts();
 ---
 
-<Layout title="Home | Alfin Aditya">
-	<main class="h-[90vh] flex flex-col justify-center items-center">
-		<div class="m-auto w-[300px]">
-			<h1 class="text-center text-3xl leading-normal font-black">
-				Hi, I'm <span class="text-primary">Alfin</span> 👋
-			</h1>
-			<h2 class="text-center text-3xl leading-normal font-black">
-				Software Developer
-			</h2>
-
-			<div class="flex justify-center my-6">
-				<a
-					href="https://github.com/Alfinaditya"
-					class="fill-white [&>svg]:w-6 [&>svg]:h-6 hover:fill-white/50"
-					rel="noreferrer"
-					target="_blank"
-				>
-					<Fragment set:html={GithubIcon} />
-				</a>
-				<a
-					class="fill-white hover:fill-white/50 [&>svg]:w-6 [&>svg]:h-6 mx-5"
-					href="mailto:alfinaditia02@gmail.com"
-				>
-					<Fragment set:html={EmailIcon} />
-				</a>
-				<a
-					class="fill-white [&>svg]:w-6 [&>svg]:h-6 hover:fill-white/50"
-					rel="noreferrer"
-					target="_blank"
-					href="https://www.linkedin.com/in/alfin-aditya-617120184/"
-				>
-					<Fragment set:html={LinkedinIcon} />
-				</a>
-			</div>
-
-			<DownloadCv
-				className={cn('m-auto', 'items-center', 'flex justify-center')}
-			/>
+<Layout>
+	<div class="pt-24">
+		<div
+			aria-hidden="true"
+			class="pop mark mb-14 flex size-16 items-center justify-center rounded-[14px] bg-accent font-mono text-[30px] font-medium text-bg"
+		>
+			A
 		</div>
-	</main>
+
+		<h1 class="sr-only">{site.name}</h1>
+		<div class="flex flex-col gap-6">
+			<p class="rise m-0 [animation-delay:.15s]">I’m {site.name}, a software developer.</p>
+			<p class="rise m-0 [animation-delay:.3s]">
+				I’m open to new work, so
+				<a href={site.cv} class="ulink whitespace-nowrap" target="_blank" rel="noopener noreferrer"
+					>Download CV<span class="ua" aria-hidden="true"> ↗</span></a
+				>
+				or
+				<a href={`mailto:${site.email}`} class="ulink whitespace-nowrap"
+					>email me<span class="ua" aria-hidden="true"> ↗</span></a
+				>.
+				<span id="local-time" class="whitespace-nowrap text-muted" hidden>
+					<span class="pulse" aria-hidden="true"></span>It’s <time></time> in {site.city}.
+				</span>
+			</p>
+		</div>
+
+		<hr class="rule draw mt-18 mb-12 [animation-delay:.45s]" />
+
+		<section aria-labelledby="blog-heading" class="flex flex-col gap-1">
+			<h2
+				id="blog-heading"
+				class="rise m-0 mb-4 font-mono text-[13px] font-medium uppercase tracking-[0.08em] text-muted [animation-delay:.6s]"
+			>
+				Blog
+			</h2>
+			{
+				posts.length === 0 ? (
+					<p class="rise m-0 text-muted [animation-delay:.7s]">No posts yet.</p>
+				) : (
+					<ul class="m-0 list-none p-0">
+						{posts.map((post, i) => (
+							<li
+								class="post-row rise flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-2"
+								style={`animation-delay:${(0.7 + i * 0.08).toFixed(2)}s`}
+							>
+								<a
+									href={`/blog/${post.id}/`}
+									class="text-fg underline decoration-underline underline-offset-[5px]"
+								>
+									{post.data.title}
+									<span class="arrow" aria-hidden="true">
+										&nbsp;→
+									</span>
+								</a>
+								<time datetime={post.data.pubDate.toISOString()} class="font-mono text-sm text-muted">
+									{formatDate(post.data.pubDate)}
+								</time>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</section>
+
+		<hr class="rule draw mt-12 mb-8 [animation-delay:1.25s]" />
+
+		<div class="rise [animation-delay:1.4s]">
+			<Footer />
+		</div>
+	</div>
 </Layout>
 
-<style></style>
+<script define:vars={{ timeZone: site.timeZone }}>
+	const wrap = document.getElementById('local-time');
+	const el = wrap?.querySelector('time');
+	if (wrap && el) {
+		const fmt = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone });
+		const tick = () => {
+			el.textContent = fmt.format(new Date()).toLowerCase();
+		};
+		tick();
+		wrap.hidden = false;
+		setInterval(tick, 30_000);
+	}
+</script>

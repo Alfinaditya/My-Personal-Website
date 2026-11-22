@@ -1,41 +1,52 @@
 ---
+import '@/styles/global.css';
+import { site } from '@/site';
+
 interface Props {
-	title: string;
+	title?: string;
+	description?: string;
+	type?: 'website' | 'article';
 }
-import '@/styles/globals.css';
-import { SEO } from 'astro-seo';
-const { title } = Astro.props;
 
-
+const { title, description = site.description, type = 'website' } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : site.name;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/me.webp', Astro.site);
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="theme-color" content="#0E0F12" />
+		<title>{fullTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="alternate" type="application/rss+xml" title={`${site.name} — Blog`} href="/rss.xml" />
+
+		<meta property="og:type" content={type} />
+		<meta property="og:title" content={fullTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta name="twitter:card" content="summary" />
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
 			rel="stylesheet"
-		/>
-		<SEO
-			title={title}
-			description="My name is Alfin Aditya, i'm a person who is passionate about Web development. My favorite technologies are : React,Typescript and Next.JS"
-			openGraph={{
-				basic: {
-					title: "Hi i'm Alfin 👏 i'm a Software Developer",
-					url: 'https://www.alfinaditya.com',
-					type: 'website',
-					image: 'https://www.alfinaditya.com/me.webp',
-				},
-			}}
 		/>
 	</head>
 	<body>
-		<slot />
+		<div class="min-h-screen px-6 pb-20">
+			<main class="mx-auto flex max-w-[680px] flex-col">
+				<slot />
+			</main>
+		</div>
 	</body>
 </html>
