@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
-import Footer from '@/components/Footer.astro';
+import { site } from '@/site';
 import Layout from '@/layouts/Layout.astro';
 import { formatDate, getPosts, readingMinutes, type Post } from '@/lib/posts';
 
@@ -32,15 +32,15 @@ const minutes = readingMinutes(post.body);
 		</nav>
 
 		<header class="flex flex-col gap-4">
-			<p class="rise m-0 font-mono text-sm text-muted [animation-delay:.1s]">
+			<p class="rise m-0 font-mono text-[14px] text-muted [animation-delay:.1s]">
 				<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time> · {minutes} min read
 			</p>
 			<h1
-				class="rise m-0 text-[40px] leading-tight font-semibold tracking-[-0.02em] text-heading [animation-delay:.2s]"
+				class="rise m-0 text-[40px] leading-[1.2] font-semibold tracking-[-0.02em] text-heading [animation-delay:.2s]"
 			>
 				{post.data.title}
 			</h1>
-			<p class="rise m-0 text-xl leading-relaxed text-sub [animation-delay:.2s]">{post.data.description}</p>
+			<p class="rise m-0 text-[20px] leading-[1.6] text-sub [animation-delay:.2s]">{post.data.description}</p>
 		</header>
 
 		<hr class="rule draw my-12 [animation-delay:.35s]" />
@@ -57,7 +57,7 @@ const minutes = readingMinutes(post.body);
 					{prev ? (
 						<a href={`/blog/${prev.id}/`} class="nav-card">
 							<span class="font-mono text-[13px] text-muted">← Previous</span>
-							<span class="text-base leading-normal">{prev.data.title}</span>
+							<span class="text-[16px] leading-[1.5]">{prev.data.title}</span>
 						</a>
 					) : (
 						<span />
@@ -65,37 +65,29 @@ const minutes = readingMinutes(post.body);
 					{next && (
 						<a href={`/blog/${next.id}/`} class="nav-card text-right">
 							<span class="font-mono text-[13px] text-muted">Next →</span>
-							<span class="text-base leading-normal">{next.data.title}</span>
+							<span class="text-[16px] leading-[1.5]">{next.data.title}</span>
 						</a>
 					)}
 				</div>
 			)
 		}
 
-		<div class="mt-12 flex flex-col gap-2">
-			<a href="/" class="back self-start text-[15px]"><span class="ba" aria-hidden="true">←</span>All posts</a>
-			<Footer />
-		</div>
+		<footer class="mt-12 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[15px] text-muted">
+			<a href="/" class="back"><span class="ba" aria-hidden="true">←</span>All posts</a>
+			<span class="font-mono text-[13px]">© {new Date().getFullYear()} {site.name}</span>
+		</footer>
 	</div>
 </Layout>
 
 <script>
-	const copyIcon =
-		'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
 	const doneIcon =
 		'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>';
 
-	for (const pre of document.querySelectorAll<HTMLPreElement>('.prose pre')) {
-		const wrap = document.createElement('div');
-		wrap.className = 'code-wrap';
-		pre.replaceWith(wrap);
-		wrap.append(pre);
-
-		const btn = document.createElement('button');
-		btn.type = 'button';
-		btn.className = 'copy-btn';
-		btn.setAttribute('aria-label', 'Copy code');
-		btn.innerHTML = copyIcon;
+	for (const block of document.querySelectorAll<HTMLElement>('.code-block')) {
+		const btn = block.querySelector<HTMLButtonElement>('.copy-btn');
+		const pre = block.querySelector('pre');
+		if (!btn || !pre) continue;
+		const copyIcon = btn.innerHTML;
 		btn.addEventListener('click', async () => {
 			try {
 				await navigator.clipboard.writeText(pre.innerText);
@@ -109,6 +101,5 @@ const minutes = readingMinutes(post.body);
 				// clipboard blocked: leave button as is
 			}
 		});
-		wrap.append(btn);
 	}
 </script>

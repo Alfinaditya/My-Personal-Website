@@ -134,8 +134,18 @@
 	.prose > * { margin: 0; }
 	.prose h2 { margin-top: 20px; font-size: 24px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; color: var(--color-heading); }
 	.prose h3 { margin-top: 12px; font-size: 20px; line-height: 1.4; font-weight: 600; color: var(--color-heading); }
-	.prose a { color: var(--color-fg); text-decoration: underline; text-decoration-color: var(--color-accent); text-underline-offset: 4px; }
-	.prose a:hover { color: #fff; }
+	.prose a {
+		color: var(--color-fg);
+		text-decoration: none;
+		padding-bottom: 2px;
+		background-image: linear-gradient(var(--color-accent), var(--color-accent)),
+			linear-gradient(var(--color-underline), var(--color-underline));
+		background-repeat: no-repeat;
+		background-position: 0 100%, 0 100%;
+		background-size: 0% 2px, 100% 1px;
+		transition: background-size 0.4s var(--ease-out-soft), color 0.2s;
+	}
+	.prose a:hover { background-size: 100% 2px, 100% 1px; color: #fff; }
 	.prose :not(pre) > code {
 		font-family: var(--font-mono);
 		font-size: 15px;
@@ -144,17 +154,34 @@
 		border-radius: 4px;
 		padding: 1px 6px;
 	}
-	.prose pre {
-		position: relative;
-		padding: 20px;
+	.code-block {
+		background: var(--color-surface);
 		border: 1px solid var(--color-border);
 		border-radius: 10px;
+		overflow: hidden;
+	}
+	.code-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px 16px;
+		border-bottom: 1px solid var(--color-border);
+		font-family: var(--font-mono);
+		font-size: 13px;
+		line-height: 1.85;
+		color: var(--color-muted);
+	}
+	.code-block pre {
+		margin: 0;
+		padding: 20px;
 		overflow-x: auto;
 		font-family: var(--font-mono);
 		font-size: 14px;
 		line-height: 1.7;
+		color: #d3d7de;
 		background: var(--color-surface) !important;
 	}
+	.code-block pre code { font-family: inherit; }
 	.prose blockquote { padding: 4px 0 4px 24px; border-left: 2px solid var(--color-accent); color: var(--color-sub); font-size: 20px; line-height: 1.6; }
 	.prose ul, .prose ol { padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
 	.prose ul { list-style: disc; }
@@ -162,16 +189,13 @@
 	.prose img { max-width: 100%; height: auto; border-radius: 10px; }
 	.prose hr { border: 0; border-top: 1px dashed var(--color-rule); }
 
-	.code-wrap { position: relative; }
 	.copy-btn {
-		position: absolute;
-		top: 6px;
-		right: 6px;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		width: 44px;
-		height: 36px;
+		height: 32px;
+		margin-right: -12px;
 		border: 0;
 		border-radius: 6px;
 		background: transparent;

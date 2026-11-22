@@ -27,7 +27,7 @@ Removing `@astrojs/react` took out React, Radix, `class-variance-authority`, `cl
 
 Posts live in `src/content/blog` as Markdown files. A content collection checks their frontmatter at build time, so a post missing its date fails the build instead of rendering wrong:
 
-```ts
+```ts title="src/content.config.ts"
 const blog = defineCollection({
   loader: glob({ base: './src/content/blog', pattern: '**/[^_]*.md' }),
   schema: z.object({
