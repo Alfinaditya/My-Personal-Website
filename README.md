@@ -29,3 +29,7 @@ draft: false
 ## Config
 
 Links (email, CV, GitHub, LinkedIn) and the local-time zone live in `src/site.ts`. Colors and fonts are tokens in `src/styles/global.css`.
+
+## OG image
+
+`public/og.png` (1200×630) is rendered from `scripts/og/og.html` with headless Chrome. After editing the HTML, run `pnpm og` (macOS Chrome path).
